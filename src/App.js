@@ -7,11 +7,8 @@ function App() {
 
     return (
         <Router>
-
             <Header />
-
             <Routes />
-
         </Router>
     );
 }
