@@ -1,92 +1,104 @@
 import React, { useEffect, useRef } from 'react';
-import { select } from 'd3-selection';
-import { max } from 'd3-array';
-import { scaleLinear, scaleBand } from 'd3-scale';
-import { axisLeft, axisBottom } from 'd3-axis';
+import * as d3 from 'd3';
 
-/**
- * Margin convention often used with D3
- */
-const margin = { top: 80, right: 60, bottom: 80, left: 60 }
-const width = 600 - margin.left - margin.right
-const height = 600 - margin.top - margin.bottom
-
-const color = ['#2196F3', '#03a9f4', '#b33535', '#283250'];
-
-const BarChart = ({ data }) => {
+const BarChart = ({ data, title }) => {
 
     const d3svg = useRef(null);
 
     useEffect(() => {
 
         if (data && d3svg.current) {
-            let svg = select(d3svg.current)
 
-            /**
-             * Scales
-             */
-            const xMax = max(data, d => d.revenue)
+            let svg = d3.select(d3svg.current), margin = 200, width = svg.attr("width") - margin, height = svg.attr("height") - margin;
+        
+            svg.append("text")
+                .attr("transform", "translate(100,0)")
+                .attr("x", 50)
+                .attr("y", 50)
+                .attr("font-size", "24px")
+                .text(title)
 
-            const xScale = scaleLinear()
-                .domain([0, xMax])
-                .range([0, width])
+            let xScale = d3.scaleBand().range ([0, width]).padding(0.5).domain(data.map(function(d) { return d.year; }));
+            let yScale = d3.scaleLinear().range ([height, 0]).domain([0, d3.max(data, function(d) { return d.value; })]);
+        
+            let g = svg.append("g").attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-            const yScale = scaleBand()
-                .domain(data.map(d => d.genre))
-                .rangeRound([0, height])
-                .paddingInner(0.25)
+            g.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale))
+                .style('font-size', "12px");
 
-            /**
-             * Append group translated to chart area
-             */
-            svg = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
+            g.append("g")
+                .call(d3.axisLeft(yScale).tickFormat((d) => d + "%").ticks(10))
+                .style('font-size', "12px")
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 40)
+                .attr('x', -100)
+                .attr("dy", "-5.1em")
+                .attr("stroke", "black")
+                .style('font-size', '17px')
+                .style('font-family', 'monospace')
+                .text("Audience");
 
-            /**
-             * Draw header
-             */
-            svg
-                .append('g')
-                .attr('className', 'bar-header')
-                .attr('transform', `translate(0, ${-margin.top / 2})`)
-                .append('text')
-                .append('tspan')
-                .text('Horizontal BarChart in D3')
-
-            /**
-             * Draw bars
-             */
-            svg
-                .selectAll('.bar')
+            g.selectAll(".bar")
                 .data(data)
-                .enter()
-                .append('rect')
-                .attr('className', 'bar')
-                .attr('y', d => yScale(d.genre))
-                .attr('width', d => xScale(d.revenue))
-                .attr('height', yScale.bandwidth())
-                .style('fill', d => d.colour)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .on("mouseover", onMouseOver) //Add listener for the mouseover event
+                .on("mouseout", onMouseOut)   //Add listener for the mouseout event
+                .attr("x", function(d) { return xScale(d.year); })
+                .attr("y", function(d) { return yScale(d.value); })
+                .attr("width", xScale.bandwidth())
+                .transition().ease(d3.easeCubicInOut).duration(3000)
+                .attr("height", (d, i) => height - yScale(d.value));             
+
 
             /**
-             * Draw axes axisBottom axisLeft
-             */
-            const xAxis = axisBottom(xScale)
-            svg
-                .append('g')
-                .attr('className', 'x axis')
-                .attr('transform', `translate(0,${height + margin.bottom / 3})`)
-                .call(xAxis)
+             * Mouseover event handler function
+             * */
+            function onMouseOver(d, i) {
+                
+                d3.select(this).attr('class', 'highlight');
+                
+                d3.select(this)
+                    .transition()     // adds animation
+                    .duration(200)
+                    .attr('width', xScale.bandwidth() + 5)
+                    .attr("y", function(d) { return yScale(d.value) - 10; })
+                    .attr("height", function(d) { return height - yScale(d.value) + 10; });
 
-            const yAxis = axisLeft(yScale).tickSize(0)
-            svg
-                .append('g')
-                .attr('className', 'y axis')
-                .attr('transform', `translate(${-margin.left / 3},0)`)
-                .call(yAxis)
+                g.append("text")
+                    .attr('class', 'val') 
+                    .attr('x', () => xScale(i.year) + 10)
+                    .attr('y', () => yScale(i.value) - 15)
+                    .text(() => `$${i.value}`);
+            }
+
+            /**
+             * Mouseout event handler function
+             */
+            function onMouseOut(d, i) {
+                
+                // use the text label class to remove label on mouseout
+                d3.select(this).attr('class', 'bar');
+
+                d3.select(this)
+                    .transition()     // adds animation
+                    .duration(400)
+                    .attr('width', xScale.bandwidth())
+                    .attr("y", function(d) { return yScale(d.value); })
+                    .attr("height", function(d) { return height - yScale(d.value); });
+
+                d3.selectAll('.val').remove();
+            }
+
         }
-    }, [data])
+
+    }, [data, title])
 
     return (
-        <svg className="bar-chart-container" width={width + margin.left + margin.right} height={height + margin.top + margin.bottom} role="img" ref={d3svg}></svg>
+        <svg width="600" height="500" ref={d3svg}></svg>
     )
 }
 

@@ -46,32 +46,27 @@ const Pie = () => {
     }, []);
 
     if (PieChartData === null) {
-        
         return <img src={logo} className="App-logo" alt="logo" />
+    } 
 
-    } else {
+    return (
 
-        return (
+        <Fragment>
 
-            <Fragment>
-    
-                {
-                    Object.keys(PieChartData).map((key) => {
-                        return (
-                            <PieChart data={ PieChartData[key] } title={`${key} Data Visualization`} key={key} />            
-                        )
-                    })
-                }
-    
-                {/* 
-                <PieChart data={ gender } title="Gender Data Visualization" />
-                <PieChart data={ ageRanges } title="Age Composition Data Visualization" />
-                <PieChart data={ ethnicity } title="Ethnicity Data Visualization" />  
-                */}
-               
-            </Fragment>
-        );
-    }
+            {
+                Object.keys(PieChartData).map((key) => {
+                    return (
+                        <PieChart data={ PieChartData[key] } title={`${key} Data Visualization`} key={key} />            
+                    )
+                })
+            }
+ 
+            <PieChart data={ gender } title="Gender Data Visualization" />
+            <PieChart data={ ageRanges } title="Age Composition Data Visualization" />
+            <PieChart data={ ethnicity } title="Ethnicity Data Visualization" />  
+           
+        </Fragment>
+    );
 
 };
 
