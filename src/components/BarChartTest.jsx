@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
 import { max } from 'd3-array';
-import { axisBottom, axisLeft } from "d3-axis";
+import { axisBottom, axisLeft, axisRight, axisTop } from "d3-axis";
 
 /**
  * Margin convention often used with D3
@@ -22,8 +22,15 @@ const BarChartTest = ({ data }) => {
             let svg = select(d3svg.current);
 
             const xMax = max(data, d => d.revenue);
-            const xScale = scaleLinear().range ([0, width]).domain([0, xMax]);
-            const yScale = scaleBand().domain(data.map(d => d.genre)).rangeRound([0, height]).paddingInner(0.25);
+            
+            const xScale = scaleLinear()
+                .range ([0, width])
+                .domain([0, xMax]);
+
+            const yScale = scaleBand()
+                .domain(data.map(d => d.genre))
+                .rangeRound([0, height])
+                .paddingInner(0.25);
             
             /**
              * Append group translated to chart area
@@ -50,7 +57,7 @@ const BarChartTest = ({ data }) => {
                 .enter()
                 .append('rect')
                 .attr('className', 'bar')
-                .attr('y', d => yScale(d.genre))
+                .attr('x', d => yScale(d.genre))
                 .attr('width', d => xScale(d.revenue))
                 .attr('height', yScale.bandwidth())
                 .style('fill', d => d.colour)
@@ -58,18 +65,18 @@ const BarChartTest = ({ data }) => {
             /**
              * Draw axes axisBottom axisLeft
              */
-            const xAxis = axisBottom(xScale)
+            const xAxis = axisLeft(xScale)
             svg
                 .append('g')
                 .attr('className', 'x axis')
-                .attr('transform', `translate(0,${height + margin.bottom / 3})`)
+                .attr('transform', `translate(${-margin.left / 3}, 0)`)
                 .call(xAxis)
 
-            const yAxis = axisLeft(yScale).tickSize(0)
+            const yAxis = axisBottom(yScale).tickSize(0)
             svg
                 .append('g')
                 .attr('className', 'y axis')
-                .attr('transform', `translate(${-margin.left / 3},0)`)
+                .attr('transform', `translate(0, ${height + margin.bottom / 2})`)
                 .call(yAxis)               
         }
 
