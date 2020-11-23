@@ -31,7 +31,7 @@ const Pie = () => {
 
     useEffect (() => {
 
-        d3.json('https://account.statsocial.com/front-end-api/fe/api/reports/9157780345631717232').then(data => {
+        d3.json('http://s3.amazonaws.com/statsocial_temp/9157780345631717232').then(data => {
 
             const chartData = data.data.demographics.data.pages;
 

@@ -7,25 +7,25 @@ const BarChartData = () => {
     const [barChartData, setBarChartData] = useState(null)
 
     let gender = [
-        {year: 'Female', value: 40.84}, 
-        {year: 'Male', value: 59.15}
+        {title: 'Female', percentage: 40.84}, 
+        {title: 'Male', percentage: 59.15}
     ];
 
     let ageRanges = [
-        {year: '18 - 24', value: 9.7}, 
-        {year: '25 - 34', value:23.1}, 
-        {year: '35 - 44', value: 27.77},
-        {year: '45 - 54', value: 21.59},
-        {year: '> 54', value: 17.82}
+        {title: '18 - 24', percentage: 9.7}, 
+        {title: '25 - 34', percentage:23.1}, 
+        {title: '35 - 44', percentage: 27.77},
+        {title: '45 - 54', percentage: 21.59},
+        {title: '> 54', percentage: 17.82}
     ];
     
     let ethnicity = [
-        {year: 'Asian', value: 21.94}, 
-        {year: 'Black', value:9.52}, 
-        {year: 'Hispanic', value: 30.42},
-        {year: 'Mixed', value: 2.19},
-        {year: 'Native', value: 0.469},
-        {year: 'White', value: 35.46}
+        {title: 'Asian', percentage: 21.94}, 
+        {title: 'Black', percentage:9.52}, 
+        {title: 'Hispanic', percentage: 30.42},
+        {title: 'Mixed', percentage: 2.19},
+        {title: 'Native', percentage: 0.469},
+        {title: 'White', percentage: 35.46}
     ];    
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
     return (
@@ -10,10 +10,10 @@ const Header = () => {
                         <a className="navbar-brand" href="/#">ReactJs D3</a>
                     </div>  
                     <ul className="nav navbar-nav">
-                        <li className="active"><Link to={ "/" }>Home</Link></li>
-                        <li><Link to={ "/circle" }>Circle</Link></li>
-                        <li><Link to={ "/bar-chart" }>Bar Charts</Link></li>
-                        <li><Link to={ "/pie-chart" }>Pie Charts</Link></li>
+                        <li><NavLink to={ "/" }>Home</NavLink></li>
+                        <li><NavLink to={ "/circle" }>Circle</NavLink></li>
+                        <li><NavLink to={ "/bar-chart" }>Bar Charts</NavLink></li>
+                        <li><NavLink to={ "/pie-chart" }>Pie Charts</NavLink></li>
                     </ul>
                 </div>
             </nav>

@@ -18,8 +18,8 @@ const BarChart = ({ data, title }) => {
                 .attr("font-size", "24px")
                 .text(title)
 
-            let xScale = d3.scaleBand().range ([0, width]).padding(0.5).domain(data.map(function(d) { return d.year; }));
-            let yScale = d3.scaleLinear().range ([height, 0]).domain([0, d3.max(data, function(d) { return d.value; })]);
+            let xScale = d3.scaleBand().range ([0, width]).padding(0.5).domain(data.map(function(d) { return d.title; }));
+            let yScale = d3.scaleLinear().range ([height, 0]).domain([0, d3.max(data, function(d) { return d.percentage; })]);
         
             let g = svg.append("g").attr("transform", "translate(" + 100 + "," + 100 + ")");
 
@@ -47,11 +47,11 @@ const BarChart = ({ data, title }) => {
                 .attr("class", "bar")
                 .on("mouseover", onMouseOver) //Add listener for the mouseover event
                 .on("mouseout", onMouseOut)   //Add listener for the mouseout event
-                .attr("x", function(d) { return xScale(d.year); })
-                .attr("y", function(d) { return yScale(d.value); })
+                .attr("x", function(d) { return xScale(d.title); })
+                .attr("y", function(d) { return yScale(d.percentage); })
                 .attr("width", xScale.bandwidth())
                 .transition().ease(d3.easeCubicInOut).duration(3000)
-                .attr("height", (d, i) => height - yScale(d.value));             
+                .attr("height", (d, i) => height - yScale(d.percentage));             
 
 
             /**
@@ -65,14 +65,14 @@ const BarChart = ({ data, title }) => {
                     .transition()     // adds animation
                     .duration(200)
                     .attr('width', xScale.bandwidth() + 5)
-                    .attr("y", function(d) { return yScale(d.value) - 10; })
-                    .attr("height", function(d) { return height - yScale(d.value) + 10; });
+                    .attr("y", function(d) { return yScale(d.percentage) - 10; })
+                    .attr("height", function(d) { return height - yScale(d.percentage) + 10; });
 
                 g.append("text")
                     .attr('class', 'val') 
-                    .attr('x', () => xScale(i.year) + 10)
-                    .attr('y', () => yScale(i.value) - 15)
-                    .text(() => `$${i.value}`);
+                    .attr('x', () => xScale(i.title) + 10)
+                    .attr('y', () => yScale(i.percentage) - 15)
+                    .text(() => `$${i.percentage}`);
             }
 
             /**
@@ -87,8 +87,8 @@ const BarChart = ({ data, title }) => {
                     .transition()     // adds animation
                     .duration(400)
                     .attr('width', xScale.bandwidth())
-                    .attr("y", function(d) { return yScale(d.value); })
-                    .attr("height", function(d) { return height - yScale(d.value); });
+                    .attr("y", function(d) { return yScale(d.percentage); })
+                    .attr("height", function(d) { return height - yScale(d.percentage); });
 
                 d3.selectAll('.val').remove();
             }
