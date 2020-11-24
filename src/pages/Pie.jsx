@@ -2,14 +2,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 import * as d3 from "d3";
 import PieChart from "../components/PieChart";
 import logo from "../logo.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchReport } from "../store/actions/report";
 
 const Pie = () => {
-
-    const dispatch = useDispatch();
-
-    const reportReducer = useSelector( state => state.reportReducer );
 
     const [PieChartData, SetPieChartData] = useState(null);
 
@@ -37,8 +31,6 @@ const Pie = () => {
 
     useEffect (() => {
 
-        dispatch(fetchReport());
-
         /**
          * Created the Node Server & Hit By Back to
          * cover the cors error
@@ -55,13 +47,11 @@ const Pie = () => {
             SetPieChartData(tmpArray);
         });
 
-    }, [dispatch]);
+    }, []);
 
     if (PieChartData === null) {
         return <img src={logo} className="App-logo" alt="logo" />
     } 
-
-    console.log(reportReducer);
 
     return (
 
