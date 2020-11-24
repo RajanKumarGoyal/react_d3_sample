@@ -2,8 +2,14 @@ import React, { Fragment, useEffect, useState } from 'react';
 import * as d3 from "d3";
 import PieChart from "../components/PieChart";
 import logo from "../logo.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReport } from "../store/actions/report";
 
 const Pie = () => {
+
+    const dispatch = useDispatch();
+
+    const reportReducer = useSelector( state => state.reportReducer );
 
     const [PieChartData, SetPieChartData] = useState(null);
 
@@ -31,7 +37,13 @@ const Pie = () => {
 
     useEffect (() => {
 
-        d3.json('http://s3.amazonaws.com/statsocial_temp/9157780345631717232').then(data => {
+        dispatch(fetchReport());
+
+        /**
+         * Created the Node Server & Hit By Back to
+         * cover the cors error
+         */
+        d3.json('http://statsocial-html.s3.amazonaws.com/free-reports/9359104051669969706').then(data => {
 
             const chartData = data.data.demographics.data.pages;
 
@@ -43,11 +55,13 @@ const Pie = () => {
             SetPieChartData(tmpArray);
         });
 
-    }, []);
+    }, [dispatch]);
 
     if (PieChartData === null) {
         return <img src={logo} className="App-logo" alt="logo" />
     } 
+
+    console.log(reportReducer);
 
     return (
 
@@ -61,9 +75,11 @@ const Pie = () => {
                 })
             }
  
+            {/* 
             <PieChart data={ gender } title="Gender Data Visualization" />
             <PieChart data={ ageRanges } title="Age Composition Data Visualization" />
-            <PieChart data={ ethnicity } title="Ethnicity Data Visualization" />  
+            <PieChart data={ ethnicity } title="Ethnicity Data Visualization" />   
+            */}
            
         </Fragment>
     );

@@ -14,6 +14,7 @@ const Header = () => {
                         <li><NavLink to={ "/circle" } exact activeClassName="active-link">Circle</NavLink></li>
                         <li><NavLink to={ "/bar-chart" } exact activeClassName="active-link">Bar Charts</NavLink></li>
                         <li><NavLink to={ "/pie-chart" } exact activeClassName="active-link">Pie Charts</NavLink></li>
+                        <li><NavLink to={ "/pie-redux" } exact activeClassName="active-link">Pie Redux</NavLink></li>
                     </ul>
                 </div>
             </nav>

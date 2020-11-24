@@ -15,6 +15,8 @@ import Circle from "../pages/Circle";
 import Home from "../pages/Home";
 import Bar from "../pages/Bar";
 import Pie from "../pages/Pie";
+import counter from "../pages/counter";
+import PieRedux from "../pages/PieRedux";
 
 const Routes = () => {
     return (
@@ -31,6 +33,8 @@ const Routes = () => {
             <AppRoute path="/circle" component={Circle} layout={Front} exact />
             <AppRoute path="/bar-chart" component={Bar} layout={Front} exact />
             <AppRoute path="/pie-chart" component={Pie} layout={Front} exact />
+            <AppRoute path="/pie-redux" component={PieRedux} layout={Front} exact />
+            <AppRoute path="/counter" component={counter} layout={Front} exact />
 
         </Switch>
     );
