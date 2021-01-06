@@ -47,10 +47,7 @@ function onMouseOut(d, i) {
     d3.select(this)
         .select('path')
         .attr('class', null)
-        .attr('d', d3.arc()
-            .innerRadius(80)
-            .outerRadius(radius)
-        );
+        .attr('d', d3.arc().innerRadius(80).outerRadius(radius));
 
     d3.select('.info').remove();
 }
@@ -94,7 +91,7 @@ const Pie = ({ data, title }) => {
             //Draw arc paths
             arcs.append("path")
                 .attr("fill", (d, i) => color(i))
-                .attr("d", arc) 
+                .attr("d", arc)
         }
 
     }, [])

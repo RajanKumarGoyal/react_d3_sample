@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
     return (
@@ -7,11 +7,9 @@ const Header = () => {
             <nav className="navbar navbar-inverse">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <a className="navbar-brand" href="/#">ReactJs D3</a>
+                        <NavLink to={ "/" } className="navbar-brand" exact>ReactJs D3</NavLink>
                     </div>  
                     <ul className="nav navbar-nav">
-                        <li><NavLink to={ "/" } exact activeClassName="active-link">Home</NavLink></li>
-                        <li><NavLink to={ "/circle" } exact activeClassName="active-link">Circle</NavLink></li>
                         <li><NavLink to={ "/bar-chart" } exact activeClassName="active-link">Bar Charts</NavLink></li>
                         <li><NavLink to={ "/pie-chart" } exact activeClassName="active-link">Pie Charts</NavLink></li>
                         <li><NavLink to={ "/pie-redux" } exact activeClassName="active-link">Pie Redux</NavLink></li>

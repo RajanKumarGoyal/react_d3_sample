@@ -10,7 +10,7 @@ const smsReducer = ( state = initialState, action ) => {
 
     switch (action.type) {
 
-        case types.FETCH_REPORT:
+        case types.FETCH_REPORT.message:
             return{
                 ...state,
                 reportPayload: action.payload,
