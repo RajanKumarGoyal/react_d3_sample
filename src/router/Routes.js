@@ -17,6 +17,7 @@ import Bar from "../pages/Bar";
 import Pie from "../pages/Pie";
 import counter from "../pages/counter";
 import PieRedux from "../pages/PieRedux";
+import Qr from "../pages/Qr";
 
 const Routes = () => {
     return (
@@ -26,6 +27,7 @@ const Routes = () => {
             <AppRoute path="/pie-chart" component={Pie} layout={Front} exact />
             <AppRoute path="/pie-redux" component={PieRedux} layout={Front} exact />
             <AppRoute path="/counter" component={counter} layout={Front} exact />
+            <AppRoute path="/qr-code" component={Qr} layout={Front} exact />
         </Switch>
     );
 };

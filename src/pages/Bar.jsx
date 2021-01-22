@@ -1,10 +1,7 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import BarChart from '../components/BarChart';
-import logo from "../logo.svg";
 
 const BarChartData = () => {
-
-    const [barChartData, setBarChartData] = useState(null)
 
     let gender = [
         {title: 'Female', percentage: 40.84}, 
@@ -27,16 +24,6 @@ const BarChartData = () => {
         {title: 'Native', percentage: 0.469},
         {title: 'White', percentage: 35.46}
     ];    
-
-    useEffect(() => {
-        
-        setBarChartData(gender);
-
-    }, []);
-
-    if (barChartData === null) {
-        return <img src={logo} className="App-logo" alt="logo" />
-    }
 
     return (
         <Fragment>
